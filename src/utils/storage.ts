@@ -5,6 +5,21 @@ import FormData from 'form-data'
 import axios from 'axios'
 import AppError from '../errors/AppError'
 
+export async function saveFile(file: string): Promise<string> {
+	try {
+		await fs.promises.stat(uploadConfig.uploadsFolder)
+	} catch {
+		console.log('Creating uploads folder...')
+		await fs.promises.mkdir(uploadConfig.uploadsFolder)
+	}
+	await fs.promises.rename(
+		path.resolve(uploadConfig.tmpFolder, file),
+		path.resolve(uploadConfig.uploadsFolder, file)
+	)
+
+	return file
+}
+
 export async function deleteFile(file: string): Promise<void> {
 	const filePath = path.resolve(uploadConfig.uploadsFolder, file)
 
@@ -29,7 +44,7 @@ export async function uploadImgur(file: string): Promise<string> {
 	try {
 		const response = await axios.post('https://api.imgur.com/3/upload', formData, {
 			headers: {
-				Authorization: 'Client-ID: e52a3cd5d1798a5',
+				Authorization: 'Client-ID: 16700f83d6009a6',
 
 				...formData.getHeaders()
 			}
@@ -39,6 +54,11 @@ export async function uploadImgur(file: string): Promise<string> {
 
 		return response.data.data.link
 	} catch (e) {
-		throw new AppError('Error sending image to Imgur API.')
+		// throw new AppError('Error sending image to Imgur API.')
+		const url =
+			process.env.NODE_ENV === 'development'
+				? 'http://localhost:3333'
+				: 'https://qa-maker-back.herokuapp.com'
+		return `${url}/files/${await saveFile(file)}`
 	}
 }

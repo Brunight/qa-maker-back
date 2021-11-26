@@ -11,6 +11,7 @@ export class UploadImageService {
 		if (!images || images.length === 0) {
 			throw new AppError('No files added.', 401)
 		}
+		console.log(images)
 
 		const filenames: string[] = []
 

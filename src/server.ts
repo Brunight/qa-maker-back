@@ -6,6 +6,7 @@ import morgan from 'morgan'
 import 'express-async-errors'
 import AppError from './errors/AppError'
 
+import uploadConfig from './config/upload'
 import routes from './routes'
 import mongoose from 'mongoose'
 ;(async () => {
@@ -14,6 +15,8 @@ import mongoose from 'mongoose'
 	app.use(cors())
 
 	app.use(express.json())
+
+	app.use('/files', express.static(uploadConfig.uploadsFolder))
 
 	app.use(morgan('dev'))
 
