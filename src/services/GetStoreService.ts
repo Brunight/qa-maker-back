@@ -12,11 +12,11 @@ class GetStoreService {
 		}
 
 		const store = await StoreModel.findOne({
-			name
+			name: { $regex: new RegExp(`^${name}$`, 'i') }
 		})
 
 		if (!store) {
-			throw new AppError('Store not found.')
+			throw new AppError('Store not found.', 404)
 		}
 
 		return store

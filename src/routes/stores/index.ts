@@ -1,9 +1,8 @@
 import { Router } from 'express'
-import GetStoresService from '../../services/GetStoresService'
-import GetStoreService from '../../services/GetStoreService'
 import StoresController from '../../controllers/StoresController'
+import storePointsRouter from './points'
 
-const storeRouter = Router()
+const storeRouter = Router({ mergeParams: true })
 
 const storesController = new StoresController()
 
@@ -12,5 +11,7 @@ storeRouter.get('/', storesController.list)
 storeRouter.get('/:name', storesController.index)
 
 storeRouter.post('/', storesController.create)
+
+storeRouter.use('/:storeId/points', storePointsRouter)
 
 export default storeRouter
