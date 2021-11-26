@@ -1,8 +1,8 @@
-class GetStoresService {
-	constructor() {}
+import { Store, StoreModel } from '../mongoose/Store'
 
-	public async execute(): Promise<any[]> {
-		return []
+class GetStoresService {
+	public async execute(): Promise<Store[]> {
+		return StoreModel.find()
 	}
 }
 

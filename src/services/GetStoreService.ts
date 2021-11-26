@@ -6,8 +6,6 @@ interface Request {
 }
 
 class GetStoreService {
-	constructor() {}
-
 	public async execute({ name }: Request): Promise<any> {
 		if (!name) {
 			throw new AppError('Store name was not provided.')
