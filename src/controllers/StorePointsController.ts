@@ -15,14 +15,15 @@ export default class StorePointsController {
 
 	public async create(request: Request, response: Response): Promise<Response> {
 		const { storeId } = request.params
-		const { title, description } = request.body
+		const { title, description, images } = request.body
 		const createStorePoint = new CreateStorePointService()
 
 		const point = await createStorePoint.execute({
 			storeId,
 			point: {
 				description,
-				title
+				title,
+				images
 			}
 		})
 
