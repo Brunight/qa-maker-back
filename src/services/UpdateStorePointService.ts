@@ -3,7 +3,7 @@ import { Point, PointModel, PointStatus } from '../mongoose/Point'
 
 interface Request {
 	pointId: string
-	point: Partial<Omit<Point, 'images' | 'title'>>
+	point: Partial<Omit<Point, 'title'>>
 }
 
 export default class UpdateStorePointService {
@@ -16,6 +16,10 @@ export default class UpdateStorePointService {
 
 		if (point.description) {
 			existingPoint.description = point.description
+		}
+
+		if (point.images) {
+			existingPoint.images = point.images
 		}
 
 		if (point.status) {
